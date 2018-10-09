@@ -54,9 +54,6 @@
     <Reference Include="EveLib.EveAuth, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\eZet.EveLib.EveAuth.3.0.1.0\lib\net45\EveLib.EveAuth.dll</HintPath>
     </Reference>
-    <Reference Include="EveLib.EveCrest, Version=3.4.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\eZet.EveLib.EveCrest.3.4.4\lib\net45\EveLib.EveCrest.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>

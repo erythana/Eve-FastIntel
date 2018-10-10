@@ -22,10 +22,13 @@ Partial Class Form1
 	'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
 	<System.Diagnostics.DebuggerStepThrough()> _
 	Private Sub InitializeComponent()
+		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
 		Me.WebBrowser1 = New System.Windows.Forms.WebBrowser()
 		Me.Button1 = New System.Windows.Forms.Button()
 		Me.Button2 = New System.Windows.Forms.Button()
+		Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
+		Me.timerSystemCheck = New System.Windows.Forms.Timer(Me.components)
 		Me.SuspendLayout()
 		'
 		'WebBrowser1
@@ -57,6 +60,14 @@ Partial Class Form1
 		Me.Button2.TabIndex = 2
 		Me.Button2.UseVisualStyleBackColor = True
 		'
+		'timerRefresh
+		'
+		Me.timerRefresh.Interval = 900000
+		'
+		'timerSystemCheck
+		'
+		Me.timerSystemCheck.Interval = 2000
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -78,4 +89,6 @@ Partial Class Form1
 	Friend WithEvents WebBrowser1 As WebBrowser
 	Friend WithEvents Button1 As Button
 	Friend WithEvents Button2 As Button
+	Friend WithEvents timerRefresh As Timer
+	Friend WithEvents timerSystemCheck As Timer
 End Class

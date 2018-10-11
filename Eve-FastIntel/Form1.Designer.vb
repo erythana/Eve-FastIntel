@@ -83,18 +83,16 @@ Partial Class Form1
 		Me.lblCharname.AutoSize = True
 		Me.lblCharname.Location = New System.Drawing.Point(6, 18)
 		Me.lblCharname.Name = "lblCharname"
-		Me.lblCharname.Size = New System.Drawing.Size(128, 13)
+		Me.lblCharname.Size = New System.Drawing.Size(0, 13)
 		Me.lblCharname.TabIndex = 3
-		Me.lblCharname.Text = "Teeeeeeeeeeeeeeeeeee"
 		'
 		'lblCorporation
 		'
 		Me.lblCorporation.AutoSize = True
 		Me.lblCorporation.Location = New System.Drawing.Point(6, 37)
 		Me.lblCorporation.Name = "lblCorporation"
-		Me.lblCorporation.Size = New System.Drawing.Size(128, 13)
+		Me.lblCorporation.Size = New System.Drawing.Size(0, 13)
 		Me.lblCorporation.TabIndex = 4
-		Me.lblCorporation.Text = "Teeeeeeeeeeeeeeeeeee"
 		'
 		'picCharacter
 		'
@@ -123,9 +121,8 @@ Partial Class Form1
 		Me.lblOnline.AutoSize = True
 		Me.lblOnline.Location = New System.Drawing.Point(6, 57)
 		Me.lblOnline.Name = "lblOnline"
-		Me.lblOnline.Size = New System.Drawing.Size(128, 13)
+		Me.lblOnline.Size = New System.Drawing.Size(0, 13)
 		Me.lblOnline.TabIndex = 5
-		Me.lblOnline.Text = "Teeeeeeeeeeeeeeeeeee"
 		'
 		'GroupBox2
 		'
@@ -146,36 +143,32 @@ Partial Class Form1
 		Me.lblSecurity.AutoSize = True
 		Me.lblSecurity.Location = New System.Drawing.Point(111, 37)
 		Me.lblSecurity.Name = "lblSecurity"
-		Me.lblSecurity.Size = New System.Drawing.Size(39, 13)
+		Me.lblSecurity.Size = New System.Drawing.Size(0, 13)
 		Me.lblSecurity.TabIndex = 6
-		Me.lblSecurity.Text = "Label1"
 		'
 		'lblPod
 		'
 		Me.lblPod.AutoSize = True
 		Me.lblPod.Location = New System.Drawing.Point(6, 57)
 		Me.lblPod.Name = "lblPod"
-		Me.lblPod.Size = New System.Drawing.Size(42, 13)
+		Me.lblPod.Size = New System.Drawing.Size(0, 13)
 		Me.lblPod.TabIndex = 5
-		Me.lblPod.Text = "Dummy"
 		'
 		'lblShip
 		'
 		Me.lblShip.AutoSize = True
 		Me.lblShip.Location = New System.Drawing.Point(6, 18)
 		Me.lblShip.Name = "lblShip"
-		Me.lblShip.Size = New System.Drawing.Size(74, 13)
+		Me.lblShip.Size = New System.Drawing.Size(0, 13)
 		Me.lblShip.TabIndex = 3
-		Me.lblShip.Text = "Teeeeeeeeee"
 		'
 		'lblLocation
 		'
 		Me.lblLocation.AutoSize = True
 		Me.lblLocation.Location = New System.Drawing.Point(6, 37)
 		Me.lblLocation.Name = "lblLocation"
-		Me.lblLocation.Size = New System.Drawing.Size(41, 13)
+		Me.lblLocation.Size = New System.Drawing.Size(0, 13)
 		Me.lblLocation.TabIndex = 4
-		Me.lblLocation.Text = "System"
 		'
 		'GroupBox3
 		'
@@ -193,18 +186,17 @@ Partial Class Form1
 		Me.lblOnlineCount.AutoSize = True
 		Me.lblOnlineCount.Location = New System.Drawing.Point(6, 18)
 		Me.lblOnlineCount.Name = "lblOnlineCount"
-		Me.lblOnlineCount.Size = New System.Drawing.Size(75, 13)
+		Me.lblOnlineCount.Size = New System.Drawing.Size(80, 13)
 		Me.lblOnlineCount.TabIndex = 7
-		Me.lblOnlineCount.Text = "Online Player: "
+		Me.lblOnlineCount.Text = "Online Players: "
 		'
 		'lblPlayers
 		'
 		Me.lblPlayers.AutoSize = True
 		Me.lblPlayers.Location = New System.Drawing.Point(87, 18)
 		Me.lblPlayers.Name = "lblPlayers"
-		Me.lblPlayers.Size = New System.Drawing.Size(37, 13)
+		Me.lblPlayers.Size = New System.Drawing.Size(0, 13)
 		Me.lblPlayers.TabIndex = 6
-		Me.lblPlayers.Text = "30000"
 		'
 		'GeckoWebBrowser1
 		'

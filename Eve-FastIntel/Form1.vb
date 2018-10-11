@@ -3,6 +3,7 @@ Imports System.Net
 Imports System.Security.Cryptography
 Imports System.Text
 Imports Newtonsoft.Json
+Imports Gecko
 
 Public Class Form1
 
@@ -40,6 +41,9 @@ Public Class Form1
 
 		CreatePKCE()
 
+
+
+
 	End Sub
 
 	Private Sub CreatePKCE()
@@ -65,7 +69,7 @@ Public Class Form1
 			Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postdata)
 			request.ContentType = "application/x-www-form-urlencoded"
 			request.ContentLength = byteArray.Length
-			Dim datastream As IO.Stream = request.GetRequestStream
+			Dim datastream As System.IO.Stream = request.GetRequestStream
 			datastream.Write(byteArray, 0, byteArray.Length)
 			datastream.Close()
 			Dim response As WebResponse = request.GetResponse
@@ -151,13 +155,16 @@ Public Class Form1
 
 		picCharacter.Image = New Bitmap(RequestPortrait(characterID))
 
+		Gecko.Xpcom.Initialize("firefox/")
+		GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID)
+		GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
 
 	End Sub
 
-	Private Function RequestPortrait(ByVal ID) As IO.MemoryStream
-		Dim webClient As New Net.WebClient
+	Private Function RequestPortrait(ByVal ID) As System.IO.MemoryStream
+		Dim webClient As New System.Net.WebClient
 		Dim ImageInBytes() As Byte = webClient.DownloadData("http://image.eveonline.com/Character/" & ID & "_128.jpg")
-		Dim ImageStream As New IO.MemoryStream(ImageInBytes)
+		Dim ImageStream As New System.IO.MemoryStream(ImageInBytes)
 		Return ImageStream
 	End Function
 
@@ -169,7 +176,7 @@ Public Class Form1
 			Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postdata)
 			request.ContentType = "application/x-www-form-urlencoded"
 			request.ContentLength = byteArray.Length
-			Dim datastream As IO.Stream = request.GetRequestStream
+			Dim datastream As System.IO.Stream = request.GetRequestStream
 			datastream.Write(byteArray, 0, byteArray.Length)
 			datastream.Close()
 			Dim response As WebResponse = request.GetResponse

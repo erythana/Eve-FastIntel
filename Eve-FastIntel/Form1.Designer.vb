@@ -42,6 +42,7 @@ Partial Class Form1
 		Me.lblOnlineCount = New System.Windows.Forms.Label()
 		Me.lblPlayers = New System.Windows.Forms.Label()
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
+		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -208,11 +209,20 @@ Partial Class Form1
 		'GeckoWebBrowser1
 		'
 		Me.GeckoWebBrowser1.FrameEventsPropagateToMainWindow = False
-		Me.GeckoWebBrowser1.Location = New System.Drawing.Point(32, 228)
+		Me.GeckoWebBrowser1.Location = New System.Drawing.Point(12, 95)
 		Me.GeckoWebBrowser1.Name = "GeckoWebBrowser1"
-		Me.GeckoWebBrowser1.Size = New System.Drawing.Size(620, 230)
+		Me.GeckoWebBrowser1.Size = New System.Drawing.Size(876, 481)
 		Me.GeckoWebBrowser1.TabIndex = 9
 		Me.GeckoWebBrowser1.UseHttpActivityObserver = False
+		'
+		'GeckoWebBrowser2
+		'
+		Me.GeckoWebBrowser2.FrameEventsPropagateToMainWindow = False
+		Me.GeckoWebBrowser2.Location = New System.Drawing.Point(12, 582)
+		Me.GeckoWebBrowser2.Name = "GeckoWebBrowser2"
+		Me.GeckoWebBrowser2.Size = New System.Drawing.Size(876, 481)
+		Me.GeckoWebBrowser2.TabIndex = 10
+		Me.GeckoWebBrowser2.UseHttpActivityObserver = False
 		'
 		'Form1
 		'
@@ -220,6 +230,7 @@ Partial Class Form1
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.LightSteelBlue
 		Me.ClientSize = New System.Drawing.Size(900, 1080)
+		Me.Controls.Add(Me.GeckoWebBrowser2)
 		Me.Controls.Add(Me.GeckoWebBrowser1)
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox2)
@@ -261,4 +272,5 @@ Partial Class Form1
 	Friend WithEvents lblOnlineCount As Label
 	Friend WithEvents lblSecurity As Label
 	Friend WithEvents GeckoWebBrowser1 As Gecko.GeckoWebBrowser
+	Friend WithEvents GeckoWebBrowser2 As Gecko.GeckoWebBrowser
 End Class

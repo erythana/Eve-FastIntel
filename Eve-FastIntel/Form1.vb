@@ -156,7 +156,7 @@ Public Class Form1
 		picCharacter.Image = New Bitmap(RequestPortrait(characterID))
 
 		Gecko.Xpcom.Initialize("firefox/")
-		GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID)
+		GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID & "#killlist")
 		GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
 
 	End Sub

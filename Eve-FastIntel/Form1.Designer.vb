@@ -27,7 +27,7 @@ Partial Class Form1
 		Me.Button1 = New System.Windows.Forms.Button()
 		Me.Button2 = New System.Windows.Forms.Button()
 		Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
-		Me.timerSystemCheck = New System.Windows.Forms.Timer(Me.components)
+		Me.timerShortIntervall = New System.Windows.Forms.Timer(Me.components)
 		Me.lblCharname = New System.Windows.Forms.Label()
 		Me.lblCorporation = New System.Windows.Forms.Label()
 		Me.picCharacter = New System.Windows.Forms.PictureBox()
@@ -43,6 +43,7 @@ Partial Class Form1
 		Me.lblPlayers = New System.Windows.Forms.Label()
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
 		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
+		Me.timerLongIntervall = New System.Windows.Forms.Timer(Me.components)
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -74,9 +75,9 @@ Partial Class Form1
 		'
 		Me.timerRefresh.Interval = 900000
 		'
-		'timerSystemCheck
+		'timerShortIntervall
 		'
-		Me.timerSystemCheck.Interval = 2000
+		Me.timerShortIntervall.Interval = 2000
 		'
 		'lblCharname
 		'
@@ -216,6 +217,10 @@ Partial Class Form1
 		Me.GeckoWebBrowser2.TabIndex = 10
 		Me.GeckoWebBrowser2.UseHttpActivityObserver = False
 		'
+		'timerLongIntervall
+		'
+		Me.timerLongIntervall.Interval = 30000
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -237,6 +242,7 @@ Partial Class Form1
 		Me.Name = "Form1"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "EvE - Fast-Intel Tool"
+		Me.TopMost = True
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()
@@ -250,7 +256,7 @@ Partial Class Form1
 	Friend WithEvents Button1 As Button
 	Friend WithEvents Button2 As Button
 	Friend WithEvents timerRefresh As Timer
-	Friend WithEvents timerSystemCheck As Timer
+	Friend WithEvents timerShortIntervall As Timer
 	Friend WithEvents lblCharname As Label
 	Friend WithEvents lblCorporation As Label
 	Friend WithEvents picCharacter As PictureBox
@@ -266,4 +272,5 @@ Partial Class Form1
 	Friend WithEvents lblSecurity As Label
 	Friend WithEvents GeckoWebBrowser1 As Gecko.GeckoWebBrowser
 	Friend WithEvents GeckoWebBrowser2 As Gecko.GeckoWebBrowser
+	Friend WithEvents timerLongIntervall As Timer
 End Class

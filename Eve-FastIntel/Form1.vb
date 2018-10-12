@@ -27,6 +27,7 @@ Public Class Form1
 	Public verifier As String = ""
 	Public access_token As String = ""
 	Public refresh_token As String = ""
+	Public character_id As Integer
 
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Me.Close()
@@ -91,55 +92,74 @@ Public Class Form1
 		End Try
 		timerRefresh.Enabled = True
 
+		'long intervall first so the characterid is resolved
+		RefreshLongIntervall()
+		RefreshShortIntervall()
 
-		Dim objLoggedInChar As JSON_loggedinchar = GetLoggedInChar()
-		Dim characterID As Integer = objLoggedInChar.CharacterID
 
-
-		Dim objCharacterInfo As JSON_charinfo = GetCharacterData(characterID)
+		'request on login
+		Dim objCharacterInfo As JSON_charinfo = GetCharacterData(character_id)
 		Dim characterName As String = objCharacterInfo.name
 		Dim corporationID As Integer = objCharacterInfo.corporation_id
-
 		Dim objCorporationInfo As JSON_corpinfo = GetCorporationInfo(corporationID)
 		Dim corporationName As String = objCorporationInfo.name
 
-		'refresh later
-		Dim objLocationID As JSON_Location = GetLocationID(characterID)
+		'Fill static Data
+		lblCharname.Text = characterName
+		lblCorporation.Text = corporationName
+		picCharacter.Image = New Bitmap(RequestPortrait(character_id))
+
+
+
+
+		Gecko.Xpcom.Initialize("firefox/")
+		timerShortIntervall.Enabled = True
+		timerLongIntervall.Enabled = True
+
+	End Sub
+
+	Private Sub RefreshShortIntervall()
+		'will get refreshed every 2 seconds
+
+		Dim objLocationID As JSON_Location = GetLocationID(character_id)
 		Dim locationID As Integer = objLocationID.solar_system_id
 
-		'refresh later
-		Dim objIsOnline As JSON_isOnline = GetIsOnline(characterID)
-		Dim isOnline As Boolean = objIsOnline.online
-
-		'refresh later
 		Dim objSystemInfo As json_SystemInfo = GetSystemInformation(locationID)
 		Dim systemname As String = objSystemInfo.name
 		Dim syssecurity As Single = objSystemInfo.security_status
 
-		'refresh later - missing conversion to name
-		Dim objShipType As JSON_shipType = GetShipInformation(characterID)
+		If Not lblLocation.Text = systemname Then
+			GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID & "#killlist")
+			GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
+			lblLocation.Text = systemname
+		End If
+
+		Dim objShipType As JSON_shipType = GetShipInformation(character_id)
 		Dim ship_type_id As Integer = objShipType.ship_type_id
 
 		Dim objItemType As JSON_typeid = GetItem(ship_type_id)
 		Dim ship_type_name As String = objItemType.name
 
+		lblShip.Text = ship_type_name
+		lblSecurity.Text = Math.Round(syssecurity, 1)
+	End Sub
 
-		Dim objImplants As Integer() = GetImplants(characterID)
-
+	Private Sub RefreshLongIntervall()
+		'will get refreshed every 30 seconds
+		Dim objLoggedInChar As JSON_loggedinchar = GetLoggedInChar()
+		character_id = objLoggedInChar.CharacterID
 
 		'refresh later
 		Dim objServerstatus As JSON_Status = GetServerStatus()
 		Dim playercount As Integer = objServerstatus.players
 
-		'Fill static Data
-		lblCharname.Text = characterName
-		lblCorporation.Text = corporationName
-		lblPlayers.Text = playercount
-		lblLocation.Text = systemname
-		lblSecurity.Text = Math.Round(syssecurity, 1)
-		lblShip.Text = ship_type_name
+		'refresh later
+		Dim objIsOnline As JSON_isOnline = GetIsOnline(character_id)
+		Dim isOnline As Boolean = objIsOnline.online
 
-		'trigger on clone-change (build a clone-change event)
+		Dim objImplants As Integer() = GetImplants(character_id)
+
+
 		If objImplants.Length > 0 Then
 			lblPod.ForeColor = Color.Red
 			lblPod.Text = "POD NOT EMPTY!"
@@ -152,13 +172,7 @@ Public Class Form1
 		Else
 			lblOnline.Text = "Currently logged out"
 		End If
-
-		picCharacter.Image = New Bitmap(RequestPortrait(characterID))
-
-		Gecko.Xpcom.Initialize("firefox/")
-		GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID & "#killlist")
-		GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
-
+		lblPlayers.Text = playercount
 	End Sub
 
 	Private Function RequestPortrait(ByVal ID) As System.IO.MemoryStream
@@ -172,7 +186,7 @@ Public Class Form1
 		Try
 			Dim request As WebRequest = WebRequest.Create("https://login.eveonline.com/v2/oauth/token")
 			request.Method = "POST"
-			Dim postdata As String = "grant_type=refresh_token" & "&refresh_token=" & refresh_token
+			Dim postdata As String = "grant_type=refresh_token&client_id=" & client_id & "&refresh_token=" & refresh_token
 			Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postdata)
 			request.ContentType = "application/x-www-form-urlencoded"
 			request.ContentLength = byteArray.Length
@@ -194,7 +208,7 @@ Public Class Form1
 
 		Catch ex As WebException
 			Dim pagecontent = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
-			MsgBox(pagecontent)
+			MsgBox("Error getting refresh token..." & vbNewLine & vbNewLine & pagecontent)
 		End Try
 
 	End Sub
@@ -350,6 +364,13 @@ Public Class Form1
 		Return Nothing
 	End Function
 
+	Private Sub timerShortIntervall_Tick(sender As Object, e As EventArgs) Handles timerShortIntervall.Tick
+		RefreshShortIntervall()
+	End Sub
+
+	Private Sub timerLongIntervall_Tick(sender As Object, e As EventArgs) Handles timerLongIntervall.Tick
+		RefreshLongIntervall()
+	End Sub
 End Class
 
 

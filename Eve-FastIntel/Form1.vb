@@ -4,6 +4,7 @@ Imports System.Security.Cryptography
 Imports System.Text
 Imports Newtonsoft.Json
 Imports Gecko
+Imports System.ComponentModel
 
 Public Class Form1
 
@@ -39,7 +40,6 @@ Public Class Form1
 	End Sub
 
 	Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
 		CreatePKCE()
 
 
@@ -59,7 +59,6 @@ Public Class Form1
 	End Sub
 
 	Public Sub ProcessCallback(ByVal auth As String)
-
 		Dim uri As Uri = New Uri(auth)
 		Dim authorizationcode As String = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("code")
 
@@ -111,8 +110,9 @@ Public Class Form1
 
 
 
-
-		Gecko.Xpcom.Initialize("firefox/")
+		Gecko.Xpcom.Initialize()
+		GeckoWebBrowser1.Visible = True
+		GeckoWebBrowser2.Visible = True
 		timerShortIntervall.Enabled = True
 		timerLongIntervall.Enabled = True
 
@@ -149,11 +149,9 @@ Public Class Form1
 		Dim objLoggedInChar As JSON_loggedinchar = GetLoggedInChar()
 		character_id = objLoggedInChar.CharacterID
 
-		'refresh later
 		Dim objServerstatus As JSON_Status = GetServerStatus()
 		Dim playercount As Integer = objServerstatus.players
 
-		'refresh later
 		Dim objIsOnline As JSON_isOnline = GetIsOnline(character_id)
 		Dim isOnline As Boolean = objIsOnline.online
 
@@ -233,16 +231,16 @@ Public Class Form1
 	End Function
 
 	Private Function GetLocationID(ByVal characterid) As JSON_Location
-		'Try
-		Dim client As WebClient = New WebClient
+		Try
+			Dim client As WebClient = New WebClient
 			client.Headers("Authorization") = "Bearer " & access_token
 			Dim result As String = client.DownloadString("https://esi.evetech.net/latest/characters/" & characterid & "/location/?datasource=tranquility")
 			Dim jsoninfo As JSON_Location = JsonConvert.DeserializeObject(Of JSON_Location)(result)
 
 			Return jsoninfo
-		'Catch ex As Exception
+		Catch ex As Exception
 
-		'End Try
+		End Try
 		Return Nothing
 
 	End Function
@@ -371,6 +369,7 @@ Public Class Form1
 	Private Sub timerLongIntervall_Tick(sender As Object, e As EventArgs) Handles timerLongIntervall.Tick
 		RefreshLongIntervall()
 	End Sub
+
 End Class
 
 

@@ -204,18 +204,22 @@ Partial Class Form1
 		Me.GeckoWebBrowser1.FrameEventsPropagateToMainWindow = False
 		Me.GeckoWebBrowser1.Location = New System.Drawing.Point(12, 95)
 		Me.GeckoWebBrowser1.Name = "GeckoWebBrowser1"
+		Me.GeckoWebBrowser1.NoDefaultContextMenu = True
 		Me.GeckoWebBrowser1.Size = New System.Drawing.Size(876, 481)
 		Me.GeckoWebBrowser1.TabIndex = 9
 		Me.GeckoWebBrowser1.UseHttpActivityObserver = False
+		Me.GeckoWebBrowser1.Visible = False
 		'
 		'GeckoWebBrowser2
 		'
 		Me.GeckoWebBrowser2.FrameEventsPropagateToMainWindow = False
 		Me.GeckoWebBrowser2.Location = New System.Drawing.Point(12, 582)
 		Me.GeckoWebBrowser2.Name = "GeckoWebBrowser2"
+		Me.GeckoWebBrowser2.NoDefaultContextMenu = True
 		Me.GeckoWebBrowser2.Size = New System.Drawing.Size(876, 481)
 		Me.GeckoWebBrowser2.TabIndex = 10
 		Me.GeckoWebBrowser2.UseHttpActivityObserver = False
+		Me.GeckoWebBrowser2.Visible = False
 		'
 		'timerLongIntervall
 		'

@@ -14,7 +14,6 @@
 					s = e.CommandLine.Item(0).ToString()
 				End If
 				DirectCast(Me.MainForm, Form1).ProcessCallback(s)
-				Gecko.Xpcom.Initialize("/Firefox")
 			End If
 		End Sub
 	End Class

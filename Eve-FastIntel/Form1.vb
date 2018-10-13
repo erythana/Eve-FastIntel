@@ -29,6 +29,7 @@ Public Class Form1
 	Public access_token As String = ""
 	Public refresh_token As String = ""
 	Public character_id As Integer
+	Public failcount As Integer = 0
 
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Me.Close()
@@ -41,8 +42,6 @@ Public Class Form1
 
 	Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		CreatePKCE()
-
-
 
 
 	End Sub
@@ -95,7 +94,6 @@ Public Class Form1
 		RefreshLongIntervall()
 		RefreshShortIntervall()
 
-
 		'request on login
 		Dim objCharacterInfo As JSON_charinfo = GetCharacterData(character_id)
 		Dim characterName As String = objCharacterInfo.name
@@ -108,11 +106,10 @@ Public Class Form1
 		lblCorporation.Text = corporationName
 		picCharacter.Image = New Bitmap(RequestPortrait(character_id))
 
-
-
 		Gecko.Xpcom.Initialize()
 		GeckoWebBrowser1.Visible = True
 		GeckoWebBrowser2.Visible = True
+		picCharacter.Visible = True
 		timerShortIntervall.Enabled = True
 		timerLongIntervall.Enabled = True
 
@@ -121,56 +118,114 @@ Public Class Form1
 	Private Sub RefreshShortIntervall()
 		'will get refreshed every 2 seconds
 
-		Dim objLocationID As JSON_Location = GetLocationID(character_id)
-		Dim locationID As Integer = objLocationID.solar_system_id
+		Try
+			Dim objLocationID As JSON_Location = GetLocationID(character_id)
+			Dim locationID As Integer = objLocationID.solar_system_id
+			Dim objSystemInfo As json_SystemInfo = GetSystemInformation(locationID)
 
-		Dim objSystemInfo As json_SystemInfo = GetSystemInformation(locationID)
-		Dim systemname As String = objSystemInfo.name
-		Dim syssecurity As Single = objSystemInfo.security_status
+			Dim systemname As String = objSystemInfo.name
+			Dim syssecurity As Single = objSystemInfo.security_status
 
-		If Not lblLocation.Text = systemname Then
-			GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID & "#killlist")
-			GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
-			lblLocation.Text = systemname
-		End If
+			If Not lblLocation.Text = systemname Then
+				GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID & "#killlist")
+				GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
+				lblLocation.Text = systemname
+			End If
 
-		Dim objShipType As JSON_shipType = GetShipInformation(character_id)
-		Dim ship_type_id As Integer = objShipType.ship_type_id
+			Dim objShipType As JSON_shipType = GetShipInformation(character_id)
+			Dim ship_type_id As Integer = objShipType.ship_type_id
 
-		Dim objItemType As JSON_typeid = GetItem(ship_type_id)
-		Dim ship_type_name As String = objItemType.name
+			Dim objItemType As JSON_typeid = GetItem(ship_type_id)
+			Dim ship_type_name As String = objItemType.name
 
-		lblShip.Text = ship_type_name
-		lblSecurity.Text = Math.Round(syssecurity, 1)
+			lblShip.Text = ship_type_name
+
+			lblSecurity.Text = FormatNumber(Math.Round(syssecurity, 1), 1).Replace(",", ".")
+			Select Case lblSecurity.Text
+				Case "1.0"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#2FEFEF")
+					lblSysArea.Text = "HighSec"
+				Case "0.9"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#48F0C0")
+					lblSysArea.Text = "HighSec"
+				Case "0.8"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#00EF47")
+					lblSysArea.Text = "HighSec"
+				Case "0.7"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#00F000")
+					lblSysArea.Text = "HighSec"
+				Case "0.6"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#8FEF2F")
+					lblSysArea.Text = "HighSec"
+				Case "0.5"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#EFEF00")
+					lblSysArea.Text = "HighSec"
+				Case "0.4"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#D77700")
+					lblSysArea.Text = "LowSec"
+				Case "0.3"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F06000")
+					lblSysArea.Text = "LowSec"
+				Case "0.2"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F04800")
+					lblSysArea.Text = "LowSec"
+				Case "0.1"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#D73000")
+					lblSysArea.Text = "LowSec"
+				Case "-1.0"
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F00000")
+					lblSysArea.Text = "Wormhole"
+				Case Else
+					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F00000")
+					lblSysArea.Text = "NullSec"
+			End Select
+
+		Catch ex As Exception
+			failcount += 1
+			If failcount = 2 Then
+				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
+				Me.Close()
+			End If
+		End Try
+
 	End Sub
 
 	Private Sub RefreshLongIntervall()
-		'will get refreshed every 30 seconds
-		Dim objLoggedInChar As JSON_loggedinchar = GetLoggedInChar()
-		character_id = objLoggedInChar.CharacterID
+		Try
+			'will get refreshed every 30 seconds
+			Dim objLoggedInChar As JSON_loggedinchar = GetLoggedInChar()
+			character_id = objLoggedInChar.CharacterID
 
-		Dim objServerstatus As JSON_Status = GetServerStatus()
-		Dim playercount As Integer = objServerstatus.players
+			Dim objServerstatus As JSON_Status = GetServerStatus()
+			Dim playercount As Integer = objServerstatus.players
 
-		Dim objIsOnline As JSON_isOnline = GetIsOnline(character_id)
-		Dim isOnline As Boolean = objIsOnline.online
+			Dim objIsOnline As JSON_isOnline = GetIsOnline(character_id)
+			Dim isOnline As Boolean = objIsOnline.online
 
-		Dim objImplants As Integer() = GetImplants(character_id)
+			Dim objImplants As Integer() = GetImplants(character_id)
 
 
-		If objImplants.Length > 0 Then
-			lblPod.ForeColor = Color.Red
-			lblPod.Text = "POD NOT EMPTY!"
-		Else
-			lblPod.Text = "No implants active"
-		End If
+			If objImplants.Length > 0 Then
+				lblPod.ForeColor = Color.Red
+				lblPod.Text = "POD NOT EMPTY!"
+			Else
+				lblPod.Text = "No implants active"
+			End If
 
-		If isOnline = True Then
-			lblOnline.Text = "Currently ingame"
-		Else
-			lblOnline.Text = "Currently logged out"
-		End If
-		lblPlayers.Text = playercount
+			If isOnline = True Then
+				lblOnline.Text = "Currently ingame"
+			Else
+				lblOnline.Text = "Currently logged out"
+			End If
+			lblPlayers.Text = playercount
+		Catch ex As Exception
+			failcount += 1
+			If failcount = 2 Then
+				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
+				Me.Close()
+			End If
+		End Try
+
 	End Sub
 
 	Private Function RequestPortrait(ByVal ID) As System.IO.MemoryStream
@@ -212,6 +267,7 @@ Public Class Form1
 	End Sub
 
 	Private Sub timerRefresh_Tick(sender As Object, e As EventArgs) Handles timerRefresh.Tick
+		failcount = 0
 		GetRefreshToken()
 	End Sub
 

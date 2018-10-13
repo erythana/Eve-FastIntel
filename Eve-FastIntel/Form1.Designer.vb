@@ -44,6 +44,7 @@ Partial Class Form1
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
 		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
 		Me.timerLongIntervall = New System.Windows.Forms.Timer(Me.components)
+		Me.lblSysArea = New System.Windows.Forms.Label()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -103,6 +104,7 @@ Partial Class Form1
 		Me.picCharacter.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
 		Me.picCharacter.TabIndex = 5
 		Me.picCharacter.TabStop = False
+		Me.picCharacter.Visible = False
 		'
 		'GroupBox1
 		'
@@ -128,6 +130,7 @@ Partial Class Form1
 		'GroupBox2
 		'
 		Me.GroupBox2.BackColor = System.Drawing.Color.Transparent
+		Me.GroupBox2.Controls.Add(Me.lblSysArea)
 		Me.GroupBox2.Controls.Add(Me.lblSecurity)
 		Me.GroupBox2.Controls.Add(Me.lblPod)
 		Me.GroupBox2.Controls.Add(Me.lblShip)
@@ -142,7 +145,7 @@ Partial Class Form1
 		'lblSecurity
 		'
 		Me.lblSecurity.AutoSize = True
-		Me.lblSecurity.Location = New System.Drawing.Point(111, 37)
+		Me.lblSecurity.Location = New System.Drawing.Point(6, 36)
 		Me.lblSecurity.Name = "lblSecurity"
 		Me.lblSecurity.Size = New System.Drawing.Size(0, 13)
 		Me.lblSecurity.TabIndex = 6
@@ -166,8 +169,9 @@ Partial Class Form1
 		'lblLocation
 		'
 		Me.lblLocation.AutoSize = True
-		Me.lblLocation.Location = New System.Drawing.Point(6, 37)
+		Me.lblLocation.Location = New System.Drawing.Point(32, 36)
 		Me.lblLocation.Name = "lblLocation"
+		Me.lblLocation.RightToLeft = System.Windows.Forms.RightToLeft.Yes
 		Me.lblLocation.Size = New System.Drawing.Size(0, 13)
 		Me.lblLocation.TabIndex = 4
 		'
@@ -225,6 +229,14 @@ Partial Class Form1
 		'
 		Me.timerLongIntervall.Interval = 30000
 		'
+		'lblSysArea
+		'
+		Me.lblSysArea.Location = New System.Drawing.Point(99, 36)
+		Me.lblSysArea.Name = "lblSysArea"
+		Me.lblSysArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+		Me.lblSysArea.Size = New System.Drawing.Size(60, 13)
+		Me.lblSysArea.TabIndex = 7
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -277,4 +289,5 @@ Partial Class Form1
 	Friend WithEvents GeckoWebBrowser1 As Gecko.GeckoWebBrowser
 	Friend WithEvents GeckoWebBrowser2 As Gecko.GeckoWebBrowser
 	Friend WithEvents timerLongIntervall As Timer
+	Friend WithEvents lblSysArea As Label
 End Class

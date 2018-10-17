@@ -25,15 +25,11 @@ Public Class Form1
 	'Client-ID of EVE-FastIntel
 	Public client_id As String = "f04e3224872b4cc5a85747411c09127c"
 	Public challenge As String = ""
-	Public verifier As String = ""
-	Public access_token As String = ""
-	Public refresh_token As String = ""
 	Public character_id As Integer
 	Public failcount As Integer = 0
 
 	Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 		Me.Close()
-
 	End Sub
 
 	Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -41,54 +37,18 @@ Public Class Form1
 	End Sub
 
 	Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-		CreatePKCE()
-
-
+		YASL.Initialize()
+		challenge = YASL.codechallenge
 	End Sub
 
-	Private Sub CreatePKCE()
-		Dim buffer = New Byte(32) {}
-		Dim rng = New RNGCryptoServiceProvider()
-		rng.GetBytes(buffer)
-		verifier = Convert.ToBase64String(buffer).Replace("=", "").Replace("+", "-").Replace("/", "_")
-
-		Dim sha = New SHA256Managed()
-		sha.ComputeHash(Encoding.UTF8.GetBytes(verifier))
-		challenge = Convert.ToBase64String(sha.Hash).Replace("=", "").Replace("+", "-").Replace("/", "_")
-	End Sub
 
 	Public Sub ProcessCallback(ByVal auth As String)
 		Dim uri As Uri = New Uri(auth)
 		Dim authorizationcode As String = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("code")
 
-		Try
-			Dim request As WebRequest = WebRequest.Create("https://login.eveonline.com/v2/oauth/token")
-			request.Method = "POST"
-			Dim postdata As String = "grant_type=authorization_code" & "&code=" & authorizationcode & "&client_id=" & client_id & "&code_verifier=" & verifier
-			Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postdata)
-			request.ContentType = "application/x-www-form-urlencoded"
-			request.ContentLength = byteArray.Length
-			Dim datastream As System.IO.Stream = request.GetRequestStream
-			datastream.Write(byteArray, 0, byteArray.Length)
-			datastream.Close()
-			Dim response As WebResponse = request.GetResponse
-			If Not response Is Nothing Then
-				Dim pagecontent As String = New StreamReader(response.GetResponseStream()).ReadToEnd
-				Dim jsonresult As JSON_result = JsonConvert.DeserializeObject(Of JSON_result)(pagecontent)
-				access_token = jsonresult.access_token
-				refresh_token = jsonresult.refresh_token
-			Else
-				access_token = ""
-				refresh_token = ""
-				CreatePKCE()
-				timerRefresh.Enabled = False
-			End If
+		Dim request As WebRequest = WebRequest.Create("https://login.eveonline.com/v2/oauth/token")
 
-		Catch ex As WebException
-			Dim pagecontent = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
-			MsgBox(pagecontent)
-		End Try
-		timerRefresh.Enabled = True
+		YASL.Settings("https://login.eveonline.com/v2/oauth/token", client_id, authorizationcode, "login.eveonline.com")
 
 		'long intervall first so the characterid is resolved
 		RefreshLongIntervall()
@@ -182,10 +142,10 @@ Public Class Form1
 
 		Catch ex As Exception
 			failcount += 1
-			If failcount = 2 Then
-				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
-				Me.Close()
-			End If
+		If failcount = 3 Then
+			MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
+			Me.Close()
+		End If
 		End Try
 
 	End Sub
@@ -219,11 +179,7 @@ Public Class Form1
 			End If
 			lblPlayers.Text = playercount
 		Catch ex As Exception
-			failcount += 1
-			If failcount = 2 Then
-				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
-				Me.Close()
-			End If
+			failcount = 0
 		End Try
 
 	End Sub
@@ -235,46 +191,11 @@ Public Class Form1
 		Return ImageStream
 	End Function
 
-	Private Sub GetRefreshToken()
-		Try
-			Dim request As WebRequest = WebRequest.Create("https://login.eveonline.com/v2/oauth/token")
-			request.Method = "POST"
-			Dim postdata As String = "grant_type=refresh_token&client_id=" & client_id & "&refresh_token=" & refresh_token
-			Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postdata)
-			request.ContentType = "application/x-www-form-urlencoded"
-			request.ContentLength = byteArray.Length
-			Dim datastream As System.IO.Stream = request.GetRequestStream
-			datastream.Write(byteArray, 0, byteArray.Length)
-			datastream.Close()
-			Dim response As WebResponse = request.GetResponse
-			If Not response Is Nothing Then
-				Dim pagecontent As String = New StreamReader(response.GetResponseStream()).ReadToEnd
-				Dim jsonresult As JSON_result = JsonConvert.DeserializeObject(Of JSON_result)(pagecontent)
-				access_token = jsonresult.access_token
-				refresh_token = jsonresult.refresh_token
-			Else
-				access_token = ""
-				refresh_token = ""
-				CreatePKCE()
-				timerRefresh.Enabled = False
-			End If
-
-		Catch ex As WebException
-			Dim pagecontent = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
-			MsgBox("Error getting refresh token..." & vbNewLine & vbNewLine & pagecontent)
-		End Try
-
-	End Sub
-
-	Private Sub timerRefresh_Tick(sender As Object, e As EventArgs) Handles timerRefresh.Tick
-		failcount = 0
-		GetRefreshToken()
-	End Sub
 
 	Private Function GetLoggedInChar() As JSON_loggedinchar
 		Try
 			Dim client As WebClient = New WebClient
-			client.Headers("Authorization") = "Bearer " & access_token
+			client.Headers("Authorization") = "Bearer " & YASL.access_token
 			Dim result As String = client.DownloadString("https://esi.tech.ccp.is/verify/")
 			Dim jsoninfo As JSON_loggedinchar = JsonConvert.DeserializeObject(Of JSON_loggedinchar)(result)
 
@@ -289,7 +210,7 @@ Public Class Form1
 	Private Function GetLocationID(ByVal characterid) As JSON_Location
 		Try
 			Dim client As WebClient = New WebClient
-			client.Headers("Authorization") = "Bearer " & access_token
+			client.Headers("Authorization") = "Bearer " & YASL.access_token
 			Dim result As String = client.DownloadString("https://esi.evetech.net/latest/characters/" & characterid & "/location/?datasource=tranquility")
 			Dim jsoninfo As JSON_Location = JsonConvert.DeserializeObject(Of JSON_Location)(result)
 
@@ -317,7 +238,7 @@ Public Class Form1
 	Private Function GetIsOnline(ByVal characterid) As JSON_isOnline
 		Try
 			Dim client As WebClient = New WebClient
-			client.Headers("Authorization") = "Bearer " & access_token
+			client.Headers("Authorization") = "Bearer " & YASL.access_token
 			Dim result As String = client.DownloadString("https://esi.evetech.net/latest/characters/" & characterid & "/online/?datasource=tranquility")
 			Dim jsoninfo As JSON_isOnline = JsonConvert.DeserializeObject(Of JSON_isOnline)(result)
 
@@ -332,7 +253,7 @@ Public Class Form1
 	Private Function GetShipInformation(ByVal characterid) As JSON_shipType
 		Try
 			Dim client As WebClient = New WebClient
-			client.Headers("Authorization") = "Bearer " & access_token
+			client.Headers("Authorization") = "Bearer " & YASL.access_token
 			Dim result As String = client.DownloadString("https://esi.evetech.net/latest/characters/" & characterid & "/ship/?datasource=tranquility")
 			Dim jsoninfo As JSON_shipType = JsonConvert.DeserializeObject(Of JSON_shipType)(result)
 
@@ -347,7 +268,7 @@ Public Class Form1
 	Private Function GetImplants(ByVal characterid) As Integer()
 		Try
 			Dim client As WebClient = New WebClient
-			client.Headers("Authorization") = "Bearer " & access_token
+			client.Headers("Authorization") = "Bearer " & YASL.access_token
 			Dim result As String = client.DownloadString("https://esi.evetech.net/latest/characters/" & characterid & "/implants/?datasource=tranquility")
 			Dim jsoninfo As Integer() = JsonConvert.DeserializeObject(Of Integer())(result)
 
@@ -429,132 +350,123 @@ Public Class Form1
 End Class
 
 
+Public Class JSON_loggedinchar
+	Public Property CharacterID As String
+	Public Property CharacterName As String
+	Public Property ExpiresOn As String
+	Public Property Scopes As String
+	Public Property TokenType As String
+	Public Property CharacterOwnerHash As String
+End Class
 
+Public Class JSON_charinfo
+	Public Property alliance_id As Integer
+	Public Property ancestry_id As Integer
+	Public Property birthday As DateTime
+	Public Property bloodline_id As Integer
+	Public Property corporation_id As Integer
+	Public Property description As String
+	Public Property faction_id As Integer
+	Public Property gender As String
+	Public Property name As String
+	Public Property race_id As Integer
+	Public Property security_status As Single
+End Class
 
-Public Class JSON_result
-		Public Property access_token As String
-		Public Property expires_in As Integer
-		Public Property token_type As String
-		Public Property refresh_token As String
-	End Class
+Public Class JSON_corpinfo
+	Public Property alliance_id As Integer
+	Public Property ceo_id As Integer
+	Public Property creator_id As Integer
+	Public Property date_founded As DateTime
+	Public Property description As String
+	Public Property faction_id As Integer
+	Public Property home_station_id As Integer
+	Public Property member_count As Integer
+	Public Property name As String
+	Public Property shares As Integer
+	Public Property tax_rate As Single
+	Public Property ticket As String
+	Public Property url As String
+End Class
 
-	Public Class JSON_loggedinchar
-		Public Property CharacterID As String
-		Public Property CharacterName As String
-		Public Property ExpiresOn As String
-		Public Property Scopes As String
-		Public Property TokenType As String
-		Public Property CharacterOwnerHash As String
-	End Class
+Public Class JSON_Status
+	Public Property players As Integer
+	Public Property server_version As String
+	Public Property start_time As String
+	Public Property vip As Boolean
+End Class
 
-	Public Class JSON_charinfo
-		Public Property alliance_id As Integer
-		Public Property ancestry_id As Integer
-		Public Property birthday As DateTime
-		Public Property bloodline_id As Integer
-		Public Property corporation_id As Integer
-		Public Property description As String
-		Public Property faction_id As Integer
-		Public Property gender As String
-		Public Property name As String
-		Public Property race_id As Integer
-		Public Property security_status As Single
-	End Class
-
-	Public Class JSON_corpinfo
-		Public Property alliance_id As Integer
-		Public Property ceo_id As Integer
-		Public Property creator_id As Integer
-		Public Property date_founded As DateTime
-		Public Property description As String
-		Public Property faction_id As Integer
-		Public Property home_station_id As Integer
-		Public Property member_count As Integer
-		Public Property name As String
-		Public Property shares As Integer
-		Public Property tax_rate As Single
-		Public Property ticket As String
-		Public Property url As String
-	End Class
-
-	Public Class JSON_Status
-		Public Property players As Integer
-		Public Property server_version As String
-		Public Property start_time As String
-		Public Property vip As Boolean
-	End Class
-
-	Public Class JSON_Location
-		Public Property solar_system_id As Integer
-		Public Property station_id As Integer
+Public Class JSON_Location
+	Public Property solar_system_id As Integer
+	Public Property station_id As Integer
 	Public Property structure_id As Single
 End Class
 
-	Public Class JSON_isOnline
-		Public Property last_login As String
-		Public Property last_logout As String
-		Public Property logins As Integer
-		Public Property online As Boolean
-	End Class
+Public Class JSON_isOnline
+	Public Property last_login As String
+	Public Property last_logout As String
+	Public Property logins As Integer
+	Public Property online As Boolean
+End Class
 
-	Public Class JSON_shipType
-		Public Property ship_item_id As Int64
-		Public Property ship_name As String
-		Public Property ship_type_id As Integer
-	End Class
+Public Class JSON_shipType
+	Public Property ship_item_id As Int64
+	Public Property ship_name As String
+	Public Property ship_type_id As Integer
+End Class
 
-	Public Class JSON_implants
-		Public Property implants As Integer()
-	End Class
+Public Class JSON_implants
+	Public Property implants As Integer()
+End Class
 
-	'Next three blocks for SystemInfo
-	Public Class Planet
-		Public Property planet_id As Integer
-		Public Property moons As Integer()
-	End Class
-	Public Class Position
-		Public Property x As Single
-		Public Property y As Single
-		Public Property z As Single
-	End Class
-	Public Class json_SystemInfo
-		Public Property constellation_id As Integer
-		Public Property name As String
-		Public Property planets As Planet()
-		Public Property position As Position
-		Public Property security_class As String
-		Public Property security_status As Single
-		Public Property star_id As Integer
-		Public Property stargates As Integer()
-		Public Property stations As Integer()
-		Public Property system_id As Integer
-	End Class
+'Next three blocks for SystemInfo
+Public Class Planet
+	Public Property planet_id As Integer
+	Public Property moons As Integer()
+End Class
+Public Class Position
+	Public Property x As Single
+	Public Property y As Single
+	Public Property z As Single
+End Class
+Public Class json_SystemInfo
+	Public Property constellation_id As Integer
+	Public Property name As String
+	Public Property planets As Planet()
+	Public Property position As Position
+	Public Property security_class As String
+	Public Property security_status As Single
+	Public Property star_id As Integer
+	Public Property stargates As Integer()
+	Public Property stations As Integer()
+	Public Property system_id As Integer
+End Class
 
-	'Next three blocks for Items
-	Public Class JSON_typeid
-		Public Property capacity As Single
-		Public Property description As String
-		Public Property dogma_attributes As DogmaAttribute()
-		Public Property dogma_effects As DogmaEffect()
-		Public Property graphic_id As Integer
-		Public Property group_id As Integer
-		Public Property icon_id As Integer
-		Public Property market_group_id As Integer
-		Public Property mass As Single
-		Public Property name As String
-		Public Property packaged_volume As Single
-		Public Property portion_size As Integer
-		Public Property published As Boolean
-		Public Property radius As Single
-		Public Property type_id As Integer
-		Public Property volume As Single
-	End Class
-	Public Class DogmaAttribute
-		Public Property attribute_id As Integer
-		Public Property value As Single
-	End Class
-	Public Class DogmaEffect
-		Public Property effect_id As Integer
-		Public Property is_default As Boolean
-	End Class
+'Next three blocks for Items
+Public Class JSON_typeid
+	Public Property capacity As Single
+	Public Property description As String
+	Public Property dogma_attributes As DogmaAttribute()
+	Public Property dogma_effects As DogmaEffect()
+	Public Property graphic_id As Integer
+	Public Property group_id As Integer
+	Public Property icon_id As Integer
+	Public Property market_group_id As Integer
+	Public Property mass As Single
+	Public Property name As String
+	Public Property packaged_volume As Single
+	Public Property portion_size As Integer
+	Public Property published As Boolean
+	Public Property radius As Single
+	Public Property type_id As Integer
+	Public Property volume As Single
+End Class
+Public Class DogmaAttribute
+	Public Property attribute_id As Integer
+	Public Property value As Single
+End Class
+Public Class DogmaEffect
+	Public Property effect_id As Integer
+	Public Property is_default As Boolean
+End Class
 

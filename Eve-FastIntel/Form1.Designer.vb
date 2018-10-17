@@ -34,6 +34,7 @@ Partial Class Form1
 		Me.GroupBox1 = New System.Windows.Forms.GroupBox()
 		Me.lblOnline = New System.Windows.Forms.Label()
 		Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+		Me.lblSysArea = New System.Windows.Forms.Label()
 		Me.lblSecurity = New System.Windows.Forms.Label()
 		Me.lblPod = New System.Windows.Forms.Label()
 		Me.lblShip = New System.Windows.Forms.Label()
@@ -44,7 +45,6 @@ Partial Class Form1
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
 		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
 		Me.timerLongIntervall = New System.Windows.Forms.Timer(Me.components)
-		Me.lblSysArea = New System.Windows.Forms.Label()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -142,6 +142,14 @@ Partial Class Form1
 		Me.GroupBox2.TabStop = False
 		Me.GroupBox2.Text = "Activity"
 		'
+		'lblSysArea
+		'
+		Me.lblSysArea.Location = New System.Drawing.Point(99, 36)
+		Me.lblSysArea.Name = "lblSysArea"
+		Me.lblSysArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes
+		Me.lblSysArea.Size = New System.Drawing.Size(60, 13)
+		Me.lblSysArea.TabIndex = 7
+		'
 		'lblSecurity
 		'
 		Me.lblSecurity.AutoSize = True
@@ -229,14 +237,6 @@ Partial Class Form1
 		'
 		Me.timerLongIntervall.Interval = 30000
 		'
-		'lblSysArea
-		'
-		Me.lblSysArea.Location = New System.Drawing.Point(99, 36)
-		Me.lblSysArea.Name = "lblSysArea"
-		Me.lblSysArea.RightToLeft = System.Windows.Forms.RightToLeft.Yes
-		Me.lblSysArea.Size = New System.Drawing.Size(60, 13)
-		Me.lblSysArea.TabIndex = 7
-		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -258,7 +258,6 @@ Partial Class Form1
 		Me.Name = "Form1"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
 		Me.Text = "EvE - Fast-Intel Tool"
-		Me.TopMost = True
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()

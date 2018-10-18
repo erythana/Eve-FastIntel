@@ -22,12 +22,9 @@ Partial Class Form1
 	'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
 	<System.Diagnostics.DebuggerStepThrough()>
 	Private Sub InitializeComponent()
-		Me.components = New System.ComponentModel.Container()
 		Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
 		Me.Button1 = New System.Windows.Forms.Button()
 		Me.Button2 = New System.Windows.Forms.Button()
-		Me.timerRefresh = New System.Windows.Forms.Timer(Me.components)
-		Me.timerShortIntervall = New System.Windows.Forms.Timer(Me.components)
 		Me.lblCharname = New System.Windows.Forms.Label()
 		Me.lblCorporation = New System.Windows.Forms.Label()
 		Me.picCharacter = New System.Windows.Forms.PictureBox()
@@ -44,7 +41,6 @@ Partial Class Form1
 		Me.lblPlayers = New System.Windows.Forms.Label()
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
 		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
-		Me.timerLongIntervall = New System.Windows.Forms.Timer(Me.components)
 		Me.chkForeground = New System.Windows.Forms.CheckBox()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
@@ -72,14 +68,6 @@ Partial Class Form1
 		Me.Button2.Size = New System.Drawing.Size(270, 52)
 		Me.Button2.TabIndex = 2
 		Me.Button2.UseVisualStyleBackColor = True
-		'
-		'timerRefresh
-		'
-		Me.timerRefresh.Interval = 900000
-		'
-		'timerShortIntervall
-		'
-		Me.timerShortIntervall.Interval = 2000
 		'
 		'lblCharname
 		'
@@ -234,10 +222,6 @@ Partial Class Form1
 		Me.GeckoWebBrowser2.UseHttpActivityObserver = False
 		Me.GeckoWebBrowser2.Visible = False
 		'
-		'timerLongIntervall
-		'
-		Me.timerLongIntervall.Interval = 30000
-		'
 		'chkForeground
 		'
 		Me.chkForeground.AutoSize = True
@@ -283,8 +267,6 @@ Partial Class Form1
 	End Sub
 	Friend WithEvents Button1 As Button
 	Friend WithEvents Button2 As Button
-	Friend WithEvents timerRefresh As Timer
-	Friend WithEvents timerShortIntervall As Timer
 	Friend WithEvents lblCharname As Label
 	Friend WithEvents lblCorporation As Label
 	Friend WithEvents picCharacter As PictureBox
@@ -300,7 +282,6 @@ Partial Class Form1
 	Friend WithEvents lblSecurity As Label
 	Friend WithEvents GeckoWebBrowser1 As Gecko.GeckoWebBrowser
 	Friend WithEvents GeckoWebBrowser2 As Gecko.GeckoWebBrowser
-	Friend WithEvents timerLongIntervall As Timer
 	Friend WithEvents lblSysArea As Label
 	Friend WithEvents chkForeground As CheckBox
 End Class

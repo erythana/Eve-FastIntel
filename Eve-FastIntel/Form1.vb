@@ -68,14 +68,22 @@ Public Class Form1
 		GeckoWebBrowser1.Visible = True
 		GeckoWebBrowser2.Visible = True
 		picCharacter.Visible = True
-		timerShortIntervall.Enabled = True
-		timerLongIntervall.Enabled = True
+
+		Dim timerShortInt = New System.Timers.Timer(2000)
+		AddHandler timerShortInt.Elapsed, AddressOf RefreshShortIntervall
+		timerShortInt.AutoReset = True
+		timerShortInt.Enabled = True
+
+		Dim timerLongInt = New System.Timers.Timer(30000)
+		AddHandler timerLongInt.Elapsed, AddressOf RefreshLongIntervall
+		timerLongInt.AutoReset = True
+		timerLongInt.Enabled = True
+
 
 	End Sub
 
 	Private Sub RefreshShortIntervall()
 		'will get refreshed every 2 seconds
-
 		Try
 			Dim objLocationID As JSON_Location = GetLocationID(character_id)
 			Dim locationID As Integer = objLocationID.solar_system_id
@@ -336,11 +344,11 @@ Public Class Form1
 		Return Nothing
 	End Function
 
-	Private Sub timerShortIntervall_Tick(sender As Object, e As EventArgs) Handles timerShortIntervall.Tick
+	Private Sub timerShortIntervall_Tick(sender As Object, e As EventArgs)
 		RefreshShortIntervall()
 	End Sub
 
-	Private Sub timerLongIntervall_Tick(sender As Object, e As EventArgs) Handles timerLongIntervall.Tick
+	Private Sub timerLongIntervall_Tick(sender As Object, e As EventArgs)
 		RefreshLongIntervall()
 	End Sub
 

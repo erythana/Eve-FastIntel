@@ -45,6 +45,7 @@ Partial Class Form1
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
 		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
 		Me.timerLongIntervall = New System.Windows.Forms.Timer(Me.components)
+		Me.chkForeground = New System.Windows.Forms.CheckBox()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -237,12 +238,23 @@ Partial Class Form1
 		'
 		Me.timerLongIntervall.Interval = 30000
 		'
+		'chkForeground
+		'
+		Me.chkForeground.AutoSize = True
+		Me.chkForeground.Location = New System.Drawing.Point(15, 75)
+		Me.chkForeground.Name = "chkForeground"
+		Me.chkForeground.Size = New System.Drawing.Size(158, 17)
+		Me.chkForeground.TabIndex = 11
+		Me.chkForeground.Text = "Keep window in Foreground"
+		Me.chkForeground.UseVisualStyleBackColor = True
+		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.LightSteelBlue
 		Me.ClientSize = New System.Drawing.Size(900, 1080)
+		Me.Controls.Add(Me.chkForeground)
 		Me.Controls.Add(Me.GeckoWebBrowser2)
 		Me.Controls.Add(Me.GeckoWebBrowser1)
 		Me.Controls.Add(Me.GroupBox3)
@@ -266,6 +278,7 @@ Partial Class Form1
 		Me.GroupBox3.ResumeLayout(False)
 		Me.GroupBox3.PerformLayout()
 		Me.ResumeLayout(False)
+		Me.PerformLayout()
 
 	End Sub
 	Friend WithEvents Button1 As Button
@@ -289,4 +302,5 @@ Partial Class Form1
 	Friend WithEvents GeckoWebBrowser2 As Gecko.GeckoWebBrowser
 	Friend WithEvents timerLongIntervall As Timer
 	Friend WithEvents lblSysArea As Label
+	Friend WithEvents chkForeground As CheckBox
 End Class

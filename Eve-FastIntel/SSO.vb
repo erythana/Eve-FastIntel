@@ -85,7 +85,6 @@ Public Class YASL
 	End Function
 
 	Private Shared Sub GetRefreshToken()
-
 		Dim requesttype As String = "refresh_token"
 		Dim modifiedcode As String = "&refresh_token=" & refresh_token
 

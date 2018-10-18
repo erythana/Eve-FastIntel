@@ -46,8 +46,6 @@ Public Class Form1
 		Dim uri As Uri = New Uri(auth)
 		Dim authorizationcode As String = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("code")
 
-		Dim request As WebRequest = WebRequest.Create("https://login.eveonline.com/v2/oauth/token")
-
 		YASL.Settings("https://login.eveonline.com/v2/oauth/token", client_id, authorizationcode, "login.eveonline.com")
 
 		'long intervall first so the characterid is resolved
@@ -163,7 +161,6 @@ Public Class Form1
 			Dim isOnline As Boolean = objIsOnline.online
 
 			Dim objImplants As Integer() = GetImplants(character_id)
-
 
 			If objImplants.Length > 0 Then
 				lblPod.ForeColor = Color.Red
@@ -347,6 +344,13 @@ Public Class Form1
 		RefreshLongIntervall()
 	End Sub
 
+	Private Sub chkForeground_CheckedChanged(sender As Object, e As EventArgs) Handles chkForeground.CheckedChanged
+		If chkForeground.Checked = True Then
+			Form1.ActiveForm.TopMost = True
+		Else
+			Form1.ActiveForm.TopMost = False
+		End If
+	End Sub
 End Class
 
 

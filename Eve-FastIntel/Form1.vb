@@ -85,8 +85,16 @@ Public Class Form1
 		'will get refreshed every 2 seconds
 		Try
 			Dim objLocationID As JSON_Location = GetLocationID(character_id)
+			If objLocationID Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 			Dim locationID As Integer = objLocationID.solar_system_id
 			Dim objSystemInfo As json_SystemInfo = GetSystemInformation(locationID)
+			If objSystemInfo Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 
 			Dim systemname As String = objSystemInfo.name
 			Dim syssecurity As Single = objSystemInfo.security_status
@@ -98,9 +106,17 @@ Public Class Form1
 			End If
 
 			Dim objShipType As JSON_shipType = GetShipInformation(character_id)
+			If objShipType Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 			Dim ship_type_id As Integer = objShipType.ship_type_id
 
 			Dim objItemType As JSON_typeid = GetItem(ship_type_id)
+			If objItemType Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 			Dim ship_type_name As String = objItemType.name
 
 			lblShip.Invoke(Sub() lblShip.Text = ship_type_name)
@@ -147,7 +163,7 @@ Public Class Form1
 
 		Catch ex As Exception
 			failcount += 1
-			If failcount = 3 Then
+			If failcount = 5 Then
 				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
 				Me.Close()
 			End If
@@ -159,12 +175,24 @@ Public Class Form1
 		Try
 			'will get refreshed every 30 seconds
 			Dim objLoggedInChar As JSON_loggedinchar = GetLoggedInChar()
+			If objLoggedInChar Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 			character_id = objLoggedInChar.CharacterID
 
 			Dim objServerstatus As JSON_Status = GetServerStatus()
+			If objServerstatus Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 			Dim playercount As Integer = objServerstatus.players
 
 			Dim objIsOnline As JSON_isOnline = GetIsOnline(character_id)
+			If objIsOnline Is Nothing Then
+				failcount += 1
+				Exit Sub
+			End If
 			Dim isOnline As Boolean = objIsOnline.online
 
 			Dim objImplants As Integer() = GetImplants(character_id)

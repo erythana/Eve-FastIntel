@@ -3,7 +3,6 @@ Imports System.Net
 Imports System.Security.Cryptography
 Imports System.Text
 Imports Newtonsoft.Json
-Imports System.ComponentModel
 
 Public Class YASL
 	Public Shared Property access_token As String = ""
@@ -17,7 +16,6 @@ Public Class YASL
 
 
 	Public Shared Sub Initialize()
-		'TODO: Implement check wheter to expose the access_code or not (and to checker wheter everything submitted is correct)
 		CreatePKCEData()
 
 	End Sub

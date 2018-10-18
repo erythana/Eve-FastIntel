@@ -163,7 +163,7 @@ Public Class Form1
 
 		Catch ex As Exception
 			failcount += 1
-			If failcount = 5 Then
+			If failcount = 4 Then
 				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
 				Me.Close()
 			End If
@@ -211,9 +211,9 @@ Public Class Form1
 			End If
 			Me.lblPlayers.Invoke(Sub() Me.lblPlayers.Text = playercount)
 		Catch ex As Exception
-			failcount = 0
-		End Try
 
+		End Try
+		failcount = 0
 	End Sub
 
 	Private Function RequestPortrait(ByVal ID) As System.IO.MemoryStream

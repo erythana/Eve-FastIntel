@@ -39,6 +39,7 @@ Public Class Form1
 	Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		YASL.Initialize()
 		challenge = YASL.codechallenge
+
 	End Sub
 
 
@@ -78,8 +79,6 @@ Public Class Form1
 		AddHandler timerLongInt.Elapsed, AddressOf RefreshLongIntervall
 		timerLongInt.AutoReset = True
 		timerLongInt.Enabled = True
-
-
 	End Sub
 
 	Private Sub RefreshShortIntervall()
@@ -95,7 +94,7 @@ Public Class Form1
 			If Not lblLocation.Text = systemname Then
 				GeckoWebBrowser1.Navigate("https://zkillboard.com/system/" & locationID & "#killlist")
 				GeckoWebBrowser2.Navigate("http://anoik.is/systems/" & systemname)
-				lblLocation.Text = systemname
+				lblLocation.Invoke(Sub() lblLocation.Text = systemname)
 			End If
 
 			Dim objShipType As JSON_shipType = GetShipInformation(character_id)
@@ -104,54 +103,54 @@ Public Class Form1
 			Dim objItemType As JSON_typeid = GetItem(ship_type_id)
 			Dim ship_type_name As String = objItemType.name
 
-			lblShip.Text = ship_type_name
+			lblShip.Invoke(Sub() lblShip.Text = ship_type_name)
 
-			lblSecurity.Text = FormatNumber(Math.Round(syssecurity, 1), 1).Replace(",", ".")
+			lblSecurity.Invoke(Sub() lblSecurity.Text = FormatNumber(Math.Round(syssecurity, 1), 1).Replace(",", "."))
 			Select Case lblSecurity.Text
 				Case "1.0"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#2FEFEF")
-					lblSysArea.Text = "HighSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#2FEFEF"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "HighSec")
 				Case "0.9"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#48F0C0")
-					lblSysArea.Text = "HighSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#48F0C0"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "HighSec")
 				Case "0.8"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#00EF47")
-					lblSysArea.Text = "HighSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#00EF47"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "HighSec")
 				Case "0.7"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#00F000")
-					lblSysArea.Text = "HighSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#00F000"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "HighSec")
 				Case "0.6"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#8FEF2F")
-					lblSysArea.Text = "HighSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#8FEF2F"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "HighSec")
 				Case "0.5"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#EFEF00")
-					lblSysArea.Text = "HighSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#EFEF00"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "HighSec")
 				Case "0.4"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#D77700")
-					lblSysArea.Text = "LowSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#D77700"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "LowSec")
 				Case "0.3"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F06000")
-					lblSysArea.Text = "LowSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F06000"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "LowSec")
 				Case "0.2"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F04800")
-					lblSysArea.Text = "LowSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F04800"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "LowSec")
 				Case "0.1"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#D73000")
-					lblSysArea.Text = "LowSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#D73000"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "LowSec")
 				Case "-1.0"
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F00000")
-					lblSysArea.Text = "Wormhole"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F00000"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "Wormhole")
 				Case Else
-					lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F00000")
-					lblSysArea.Text = "NullSec"
+					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#F00000"))
+					lblSysArea.Invoke(Sub() lblSysArea.Text = "NullSec")
 			End Select
 
 		Catch ex As Exception
 			failcount += 1
-		If failcount = 3 Then
-			MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
-			Me.Close()
-		End If
+			If failcount = 3 Then
+				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
+				Me.Close()
+			End If
 		End Try
 
 	End Sub
@@ -171,18 +170,18 @@ Public Class Form1
 			Dim objImplants As Integer() = GetImplants(character_id)
 
 			If objImplants.Length > 0 Then
-				lblPod.ForeColor = Color.Red
-				lblPod.Text = "POD NOT EMPTY!"
+				lblPod.Invoke(Sub() lblPod.ForeColor = Color.Red)
+				lblPod.Invoke(Sub() lblPod.Text = "POD NOT EMPTY!")
 			Else
-				lblPod.Text = "No implants active"
+				lblPod.Invoke(Sub() lblPod.Text = "No implants active")
 			End If
 
 			If isOnline = True Then
-				lblOnline.Text = "Currently ingame"
+				lblOnline.Invoke(Sub() lblOnline.Text = "Currently ingame")
 			Else
-				lblOnline.Text = "Currently logged out"
+				lblOnline.Invoke(Sub() lblOnline.Text = "Currently logged out")
 			End If
-			lblPlayers.Text = playercount
+			Me.lblPlayers.Invoke(Sub() Me.lblPlayers.Text = playercount)
 		Catch ex As Exception
 			failcount = 0
 		End Try
@@ -344,20 +343,23 @@ Public Class Form1
 		Return Nothing
 	End Function
 
-	Private Sub timerShortIntervall_Tick(sender As Object, e As EventArgs)
-		RefreshShortIntervall()
-	End Sub
-
-	Private Sub timerLongIntervall_Tick(sender As Object, e As EventArgs)
-		RefreshLongIntervall()
+	Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+		chkForeground.Checked = My.Settings.setting_foreground
 	End Sub
 
 	Private Sub chkForeground_CheckedChanged(sender As Object, e As EventArgs) Handles chkForeground.CheckedChanged
 		If chkForeground.Checked = True Then
+			My.Settings.setting_foreground = True
 			Form1.ActiveForm.TopMost = True
 		Else
+			My.Settings.setting_foreground = False
 			Form1.ActiveForm.TopMost = False
 		End If
+	End Sub
+
+	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+		GeckoWebBrowser1.Dispose()
+		GeckoWebBrowser2.Dispose()
 	End Sub
 End Class
 

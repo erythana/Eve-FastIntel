@@ -121,7 +121,7 @@ Public Class Form1
 
 			lblShip.Invoke(Sub() lblShip.Text = ship_type_name)
 
-			lblSecurity.Invoke(Sub() lblSecurity.Text = FormatNumber(Math.Round(syssecurity, 1), 1).Replace(",", "."))
+			lblSecurity.Invoke(Sub() lblSecurity.Text = CCP_Round_syssec(syssecurity))
 			Select Case lblSecurity.Text
 				Case "1.0"
 					lblSecurity.Invoke(Sub() lblSecurity.ForeColor = System.Drawing.ColorTranslator.FromHtml("#2FEFEF"))
@@ -163,13 +163,22 @@ Public Class Form1
 
 		Catch ex As Exception
 			failcount += 1
-			If failcount = 4 Then
+			If failcount = 6 Then
 				MsgBox("Error getting data from server. Quitting... " & vbNewLine & ex.Message)
 				Me.Close()
 			End If
 		End Try
 
 	End Sub
+
+	Private Function CCP_Round_syssec(ByVal syssec As Single) As String
+		'if syssec is slighly above 0 we need to make it a 0.10 (with formating so return value is the same)
+		If syssec > 0 And syssec < 0.05 Then
+			Return FormatNumber(Math.Round(Math.Ceiling(0.05 * 10) / 10, 2), 1).Replace(",", ".")
+		Else
+			Return FormatNumber(Math.Round(syssec, 2), 1).Replace(",", ".")
+		End If
+	End Function
 
 	Private Sub RefreshLongIntervall()
 		Try

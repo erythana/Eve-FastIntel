@@ -55,8 +55,8 @@ Public Class YASL
 	End Sub
 
 	Private Shared Function ReturnAccessCode(ByVal authServer As String, ByVal requesttype As String, ByVal modifiedcode As String, ByVal client_id As String, ByVal headerhost As String, Optional ByVal verifier As String = "")
-		Try
-			Dim request As HttpWebRequest = HttpWebRequest.Create(authServer)
+		'Try
+		Dim request As HttpWebRequest = HttpWebRequest.Create(authServer)
 			Dim postdata As String = "grant_type=" & requesttype & modifiedcode & "&client_id=" & client_id & verifier
 			Dim byteArray As Byte() = Encoding.UTF8.GetBytes(postdata)
 			request.Method = "POST"
@@ -75,10 +75,10 @@ Public Class YASL
 				Throw New Exception("Response was nothing!")
 			End If
 
-		Catch ex As WebException
-			Dim pagecontent = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
-			Throw New Exception("Error getting data from server:" & vbNewLine & pagecontent)
-		End Try
+		'Catch ex As WebException
+		'm pagecontent = New StreamReader(ex.Response.GetResponseStream()).ReadToEnd
+		'Throw New Exception("Error getting data from server:" & vbNewLine & pagecontent)
+		'End Try
 		Return Nothing
 	End Function
 

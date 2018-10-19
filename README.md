@@ -3,7 +3,7 @@ Eve Online - Tool for gathering Intel in the current system of the logged on cha
 
 After setting everything up you can run the tool, login and select the character.
 
-![alt text](Eve-FastIntel.png "Screenshot of Eve-FastIntel")
+![alt text](FastIntel.png "Screenshot of Eve-FastIntel")
 
 # Requirements
 It is recommended to use the setup-file (which does all the following stuff automatically for you).

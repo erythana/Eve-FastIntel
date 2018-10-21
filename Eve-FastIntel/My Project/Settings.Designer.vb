@@ -65,6 +65,18 @@ Namespace My
                 Me("setting_foreground") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property setting_vertical() As Boolean
+            Get
+                Return CType(Me("setting_vertical"),Boolean)
+            End Get
+            Set
+                Me("setting_vertical") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

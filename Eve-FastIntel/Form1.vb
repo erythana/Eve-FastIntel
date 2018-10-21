@@ -68,6 +68,7 @@ Public Class Form1
 		GeckoWebBrowser1.Visible = True
 		GeckoWebBrowser2.Visible = True
 		Button3.Visible = True
+		btnLayout.Visible = True
 		SplitContainer1.Visible = True
 		picCharacter.Visible = True
 
@@ -383,6 +384,11 @@ Public Class Form1
 
 	Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		chkForeground.Checked = My.Settings.setting_foreground
+		If My.Settings.setting_vertical = True Then
+			btnLayout.Text = "Horizontal"
+			SplitContainer1.Orientation = Orientation.Vertical
+			SplitContainer1.SplitterDistance = SplitContainer1.Width / 2
+		End If
 	End Sub
 
 	Private Sub chkForeground_CheckedChanged(sender As Object, e As EventArgs) Handles chkForeground.CheckedChanged
@@ -405,7 +411,26 @@ Public Class Form1
 	End Sub
 
 	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-		SplitContainer1.SplitterDistance = SplitContainer1.Height / 2
+		If SplitContainer1.Orientation = Orientation.Horizontal Then
+			SplitContainer1.SplitterDistance = SplitContainer1.Height / 2
+		Else
+			SplitContainer1.SplitterDistance = SplitContainer1.Width / 2
+		End If
+	End Sub
+
+	Private Sub btnLayout_Click(sender As Object, e As EventArgs) Handles btnLayout.Click
+		If SplitContainer1.Orientation = Orientation.Horizontal Then
+			btnLayout.Text = "Horizontal"
+			SplitContainer1.Orientation = Orientation.Vertical
+			SplitContainer1.SplitterDistance = SplitContainer1.Width / 2
+			My.Settings.setting_vertical = True
+		Else
+			btnLayout.Text = "Vertical"
+			SplitContainer1.Orientation = Orientation.Horizontal
+			SplitContainer1.SplitterDistance = SplitContainer1.Height / 2
+			My.Settings.setting_vertical = False
+		End If
+
 	End Sub
 End Class
 

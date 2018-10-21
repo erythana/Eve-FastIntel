@@ -44,6 +44,7 @@ Partial Class Form1
 		Me.chkForeground = New System.Windows.Forms.CheckBox()
 		Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
 		Me.Button3 = New System.Windows.Forms.Button()
+		Me.btnLayout = New System.Windows.Forms.Button()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
@@ -71,9 +72,10 @@ Partial Class Form1
 		'Button2
 		'
 		Me.Button2.BackgroundImage = CType(resources.GetObject("Button2.BackgroundImage"), System.Drawing.Image)
-		Me.Button2.Location = New System.Drawing.Point(12, 7)
+		Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.Button2.Location = New System.Drawing.Point(14, 3)
 		Me.Button2.Name = "Button2"
-		Me.Button2.Size = New System.Drawing.Size(270, 52)
+		Me.Button2.Size = New System.Drawing.Size(275, 50)
 		Me.Button2.TabIndex = 2
 		Me.Button2.UseVisualStyleBackColor = True
 		'
@@ -95,7 +97,7 @@ Partial Class Form1
 		'
 		'picCharacter
 		'
-		Me.picCharacter.Location = New System.Drawing.Point(285, 5)
+		Me.picCharacter.Location = New System.Drawing.Point(294, 5)
 		Me.picCharacter.Name = "picCharacter"
 		Me.picCharacter.Size = New System.Drawing.Size(84, 84)
 		Me.picCharacter.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -109,7 +111,7 @@ Partial Class Form1
 		Me.GroupBox1.Controls.Add(Me.lblOnline)
 		Me.GroupBox1.Controls.Add(Me.lblCharname)
 		Me.GroupBox1.Controls.Add(Me.lblCorporation)
-		Me.GroupBox1.Location = New System.Drawing.Point(375, 5)
+		Me.GroupBox1.Location = New System.Drawing.Point(384, 7)
 		Me.GroupBox1.Name = "GroupBox1"
 		Me.GroupBox1.Size = New System.Drawing.Size(156, 78)
 		Me.GroupBox1.TabIndex = 6
@@ -132,7 +134,7 @@ Partial Class Form1
 		Me.GroupBox2.Controls.Add(Me.lblPod)
 		Me.GroupBox2.Controls.Add(Me.lblShip)
 		Me.GroupBox2.Controls.Add(Me.lblLocation)
-		Me.GroupBox2.Location = New System.Drawing.Point(537, 5)
+		Me.GroupBox2.Location = New System.Drawing.Point(546, 4)
 		Me.GroupBox2.Name = "GroupBox2"
 		Me.GroupBox2.Size = New System.Drawing.Size(156, 78)
 		Me.GroupBox2.TabIndex = 7
@@ -184,7 +186,7 @@ Partial Class Form1
 		'
 		Me.GroupBox3.Controls.Add(Me.lblOnlineCount)
 		Me.GroupBox3.Controls.Add(Me.lblPlayers)
-		Me.GroupBox3.Location = New System.Drawing.Point(699, 5)
+		Me.GroupBox3.Location = New System.Drawing.Point(708, 7)
 		Me.GroupBox3.Name = "GroupBox3"
 		Me.GroupBox3.Size = New System.Drawing.Size(141, 78)
 		Me.GroupBox3.TabIndex = 8
@@ -242,9 +244,9 @@ Partial Class Form1
 		Me.chkForeground.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 		Me.chkForeground.Location = New System.Drawing.Point(14, 65)
 		Me.chkForeground.Name = "chkForeground"
-		Me.chkForeground.Size = New System.Drawing.Size(155, 17)
+		Me.chkForeground.Size = New System.Drawing.Size(83, 17)
 		Me.chkForeground.TabIndex = 11
-		Me.chkForeground.Text = "Keep window in Foreground"
+		Me.chkForeground.Text = "Keep in front"
 		Me.chkForeground.UseVisualStyleBackColor = True
 		'
 		'SplitContainer1
@@ -272,13 +274,24 @@ Partial Class Form1
 		'Button3
 		'
 		Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-		Me.Button3.Location = New System.Drawing.Point(175, 62)
+		Me.Button3.Location = New System.Drawing.Point(185, 60)
 		Me.Button3.Name = "Button3"
 		Me.Button3.Size = New System.Drawing.Size(104, 23)
 		Me.Button3.TabIndex = 13
 		Me.Button3.Text = "Recenter browser"
 		Me.Button3.UseVisualStyleBackColor = True
 		Me.Button3.Visible = False
+		'
+		'btnLayout
+		'
+		Me.btnLayout.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.btnLayout.Location = New System.Drawing.Point(103, 60)
+		Me.btnLayout.Name = "btnLayout"
+		Me.btnLayout.Size = New System.Drawing.Size(75, 23)
+		Me.btnLayout.TabIndex = 14
+		Me.btnLayout.Text = "Vertical"
+		Me.btnLayout.UseVisualStyleBackColor = True
+		Me.btnLayout.Visible = False
 		'
 		'Form1
 		'
@@ -287,6 +300,7 @@ Partial Class Form1
 		Me.BackColor = System.Drawing.Color.LightSteelBlue
 		Me.ClientSize = New System.Drawing.Size(920, 980)
 		Me.ControlBox = False
+		Me.Controls.Add(Me.btnLayout)
 		Me.Controls.Add(Me.Button3)
 		Me.Controls.Add(Me.SplitContainer1)
 		Me.Controls.Add(Me.chkForeground)
@@ -337,4 +351,5 @@ Partial Class Form1
 	Friend WithEvents chkForeground As CheckBox
 	Friend WithEvents SplitContainer1 As SplitContainer
 	Friend WithEvents Button3 As Button
+	Friend WithEvents btnLayout As Button
 End Class

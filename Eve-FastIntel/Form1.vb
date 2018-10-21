@@ -39,11 +39,10 @@ Public Class Form1
 	Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		YASL.Initialize()
 		challenge = YASL.codechallenge
-
 	End Sub
 
-
 	Public Sub ProcessCallback(ByVal auth As String)
+
 		Dim uri As Uri = New Uri(auth)
 		Dim authorizationcode As String = System.Web.HttpUtility.ParseQueryString(uri.Query).Get("code")
 
@@ -68,6 +67,8 @@ Public Class Form1
 		Gecko.Xpcom.Initialize()
 		GeckoWebBrowser1.Visible = True
 		GeckoWebBrowser2.Visible = True
+		Button3.Visible = True
+		SplitContainer1.Visible = True
 		picCharacter.Visible = True
 
 		Dim timerShortInt = New System.Timers.Timer(2000)
@@ -397,6 +398,14 @@ Public Class Form1
 	Private Sub Form1_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
 		GeckoWebBrowser1.Dispose()
 		GeckoWebBrowser2.Dispose()
+	End Sub
+
+	Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
+
+	End Sub
+
+	Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+		SplitContainer1.SplitterDistance = SplitContainer1.Height / 2
 	End Sub
 End Class
 

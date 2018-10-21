@@ -42,19 +42,27 @@ Partial Class Form1
 		Me.GeckoWebBrowser1 = New Gecko.GeckoWebBrowser()
 		Me.GeckoWebBrowser2 = New Gecko.GeckoWebBrowser()
 		Me.chkForeground = New System.Windows.Forms.CheckBox()
+		Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+		Me.Button3 = New System.Windows.Forms.Button()
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).BeginInit()
 		Me.GroupBox1.SuspendLayout()
 		Me.GroupBox2.SuspendLayout()
 		Me.GroupBox3.SuspendLayout()
+		CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
+		Me.SplitContainer1.Panel1.SuspendLayout()
+		Me.SplitContainer1.Panel2.SuspendLayout()
+		Me.SplitContainer1.SuspendLayout()
 		Me.SuspendLayout()
 		'
 		'Button1
 		'
+		Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.Button1.BackColor = System.Drawing.Color.Transparent
 		Me.Button1.BackgroundImage = CType(resources.GetObject("Button1.BackgroundImage"), System.Drawing.Image)
 		Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+		Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
 		Me.Button1.ForeColor = System.Drawing.Color.Transparent
-		Me.Button1.Location = New System.Drawing.Point(846, 12)
+		Me.Button1.Location = New System.Drawing.Point(866, 12)
 		Me.Button1.Name = "Button1"
 		Me.Button1.Size = New System.Drawing.Size(42, 42)
 		Me.Button1.TabIndex = 1
@@ -63,7 +71,7 @@ Partial Class Form1
 		'Button2
 		'
 		Me.Button2.BackgroundImage = CType(resources.GetObject("Button2.BackgroundImage"), System.Drawing.Image)
-		Me.Button2.Location = New System.Drawing.Point(12, 23)
+		Me.Button2.Location = New System.Drawing.Point(12, 7)
 		Me.Button2.Name = "Button2"
 		Me.Button2.Size = New System.Drawing.Size(270, 52)
 		Me.Button2.TabIndex = 2
@@ -202,22 +210,28 @@ Partial Class Form1
 		'
 		'GeckoWebBrowser1
 		'
+		Me.GeckoWebBrowser1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+			Or System.Windows.Forms.AnchorStyles.Left) _
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.GeckoWebBrowser1.FrameEventsPropagateToMainWindow = False
-		Me.GeckoWebBrowser1.Location = New System.Drawing.Point(12, 95)
+		Me.GeckoWebBrowser1.Location = New System.Drawing.Point(3, 4)
 		Me.GeckoWebBrowser1.Name = "GeckoWebBrowser1"
 		Me.GeckoWebBrowser1.NoDefaultContextMenu = True
-		Me.GeckoWebBrowser1.Size = New System.Drawing.Size(876, 481)
+		Me.GeckoWebBrowser1.Size = New System.Drawing.Size(886, 429)
 		Me.GeckoWebBrowser1.TabIndex = 9
 		Me.GeckoWebBrowser1.UseHttpActivityObserver = False
 		Me.GeckoWebBrowser1.Visible = False
 		'
 		'GeckoWebBrowser2
 		'
+		Me.GeckoWebBrowser2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+			Or System.Windows.Forms.AnchorStyles.Left) _
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
 		Me.GeckoWebBrowser2.FrameEventsPropagateToMainWindow = False
-		Me.GeckoWebBrowser2.Location = New System.Drawing.Point(12, 582)
+		Me.GeckoWebBrowser2.Location = New System.Drawing.Point(3, 3)
 		Me.GeckoWebBrowser2.Name = "GeckoWebBrowser2"
 		Me.GeckoWebBrowser2.NoDefaultContextMenu = True
-		Me.GeckoWebBrowser2.Size = New System.Drawing.Size(876, 481)
+		Me.GeckoWebBrowser2.Size = New System.Drawing.Size(886, 455)
 		Me.GeckoWebBrowser2.TabIndex = 10
 		Me.GeckoWebBrowser2.UseHttpActivityObserver = False
 		Me.GeckoWebBrowser2.Visible = False
@@ -225,35 +239,68 @@ Partial Class Form1
 		'chkForeground
 		'
 		Me.chkForeground.AutoSize = True
-		Me.chkForeground.Location = New System.Drawing.Point(15, 75)
+		Me.chkForeground.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.chkForeground.Location = New System.Drawing.Point(14, 65)
 		Me.chkForeground.Name = "chkForeground"
-		Me.chkForeground.Size = New System.Drawing.Size(158, 17)
+		Me.chkForeground.Size = New System.Drawing.Size(155, 17)
 		Me.chkForeground.TabIndex = 11
 		Me.chkForeground.Text = "Keep window in Foreground"
 		Me.chkForeground.UseVisualStyleBackColor = True
+		'
+		'SplitContainer1
+		'
+		Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+			Or System.Windows.Forms.AnchorStyles.Left) _
+			Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+		Me.SplitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+		Me.SplitContainer1.Location = New System.Drawing.Point(12, 89)
+		Me.SplitContainer1.Name = "SplitContainer1"
+		Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+		'
+		'SplitContainer1.Panel1
+		'
+		Me.SplitContainer1.Panel1.Controls.Add(Me.GeckoWebBrowser1)
+		'
+		'SplitContainer1.Panel2
+		'
+		Me.SplitContainer1.Panel2.Controls.Add(Me.GeckoWebBrowser2)
+		Me.SplitContainer1.Size = New System.Drawing.Size(896, 880)
+		Me.SplitContainer1.SplitterDistance = 440
+		Me.SplitContainer1.TabIndex = 12
+		Me.SplitContainer1.Visible = False
+		'
+		'Button3
+		'
+		Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+		Me.Button3.Location = New System.Drawing.Point(175, 62)
+		Me.Button3.Name = "Button3"
+		Me.Button3.Size = New System.Drawing.Size(104, 23)
+		Me.Button3.TabIndex = 13
+		Me.Button3.Text = "Recenter browser"
+		Me.Button3.UseVisualStyleBackColor = True
+		Me.Button3.Visible = False
 		'
 		'Form1
 		'
 		Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
 		Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
 		Me.BackColor = System.Drawing.Color.LightSteelBlue
-		Me.ClientSize = New System.Drawing.Size(900, 1080)
+		Me.ClientSize = New System.Drawing.Size(920, 980)
+		Me.ControlBox = False
+		Me.Controls.Add(Me.Button3)
+		Me.Controls.Add(Me.SplitContainer1)
 		Me.Controls.Add(Me.chkForeground)
-		Me.Controls.Add(Me.GeckoWebBrowser2)
-		Me.Controls.Add(Me.GeckoWebBrowser1)
 		Me.Controls.Add(Me.GroupBox3)
 		Me.Controls.Add(Me.GroupBox2)
 		Me.Controls.Add(Me.picCharacter)
 		Me.Controls.Add(Me.GroupBox1)
 		Me.Controls.Add(Me.Button2)
 		Me.Controls.Add(Me.Button1)
-		Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
 		Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-		Me.MaximizeBox = False
 		Me.MinimizeBox = False
+		Me.MinimumSize = New System.Drawing.Size(920, 500)
 		Me.Name = "Form1"
 		Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-		Me.Text = "EvE - Fast-Intel Tool"
 		CType(Me.picCharacter, System.ComponentModel.ISupportInitialize).EndInit()
 		Me.GroupBox1.ResumeLayout(False)
 		Me.GroupBox1.PerformLayout()
@@ -261,6 +308,10 @@ Partial Class Form1
 		Me.GroupBox2.PerformLayout()
 		Me.GroupBox3.ResumeLayout(False)
 		Me.GroupBox3.PerformLayout()
+		Me.SplitContainer1.Panel1.ResumeLayout(False)
+		Me.SplitContainer1.Panel2.ResumeLayout(False)
+		CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
+		Me.SplitContainer1.ResumeLayout(False)
 		Me.ResumeLayout(False)
 		Me.PerformLayout()
 
@@ -284,4 +335,6 @@ Partial Class Form1
 	Friend WithEvents GeckoWebBrowser2 As Gecko.GeckoWebBrowser
 	Friend WithEvents lblSysArea As Label
 	Friend WithEvents chkForeground As CheckBox
+	Friend WithEvents SplitContainer1 As SplitContainer
+	Friend WithEvents Button3 As Button
 End Class
